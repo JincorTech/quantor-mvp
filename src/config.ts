@@ -25,10 +25,24 @@ const {
   AUTH_BASE_URL,
   MONGO_URL,
   ACCESS_LOG,
-  SERVICE_NAME
+  SERVICE_NAME,
+  WEB3_RESTORE_START_BLOCK,
+  WEB3_BLOCK_OFFSET,
+  DEFAULT_INVEST_GAS,
+  PURCHASE_GAS_LIMIT,
+  SC_ADDRESS,
+  SC_OWNER_PK,
+  RPC_TYPE,
+  RPC_ADDRESS
 } = process.env;
 
 export default {
+  web3: {
+    startBlock: parseInt(WEB3_RESTORE_START_BLOCK, 10) || 1,
+    blockOffset: parseInt(WEB3_BLOCK_OFFSET, 10) || 200,
+    defaultInvestGas: parseInt(DEFAULT_INVEST_GAS, 10) || 130000,
+    purchaseGasLimit: parseInt(PURCHASE_GAS_LIMIT, 10) || 100000
+  },
   app: {
     clientIpHeader: CLIENT_IP_FORWARD_HEADER || 'x-forwarded-for',
     serviceName: SERVICE_NAME || 'secret_tech',
@@ -74,5 +88,17 @@ export default {
     subscribers: [
       ORM_SUBSCRIBER_DIR
     ]
+  },
+  rpc: {
+    type: RPC_TYPE,
+    address: RPC_ADDRESS,
+    reconnectTimeout: 5000 // in milliseconds
+  },
+  contracts: {
+    fileproof: {
+      abi: [{"constant":false,"inputs":[{"name":"_id","type":"bytes32"},{"name":"user","type":"string"},{"name":"timestamp","type":"uint256"},{"name":"hash","type":"string"},{"name":"fileUrl","type":"string"}],"name":"addFile","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"bytes32"}],"name":"getFile","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"string"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"files","outputs":[{"name":"user","type":"string"},{"name":"timestamp","type":"uint256"},{"name":"hash","type":"string"},{"name":"fileUrl","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}],
+      address: SC_ADDRESS || '',
+      ownerPk: SC_OWNER_PK || ''
+    }
   }
 };

@@ -8,6 +8,14 @@ declare interface TenantRegistrationResult extends RegistrationResult {
 
 }
 
+interface TransactionInput {
+  from?: string;
+  to: string;
+  amount: string;
+  gas: number;
+  gasPrice: string;
+}
+
 declare interface UserRegistrationResult extends RegistrationResult {
   tenant: string;
   sub: string;

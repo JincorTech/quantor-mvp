@@ -1,10 +1,11 @@
 import { Container } from 'inversify';
 import { AuthClientType, AuthClient } from './services/auth.client';
+import { Web3ClientInterface, Web3ClientType, Web3Client } from './services/web3.client';
 import { Auth } from './middlewares/auth';
 import config from './config';
 import * as express from 'express';
 import * as validation from './middlewares/request.validation';
-import './controllers/secret.controller';
+import './controllers/report.controller';
 
 let container = new Container();
 
@@ -19,5 +20,8 @@ container.bind<express.RequestHandler>('AuthMiddleware').toConstantValue(
 container.bind<express.RequestHandler>('OnlyAcceptApplicationJson').toConstantValue(
   (req: any, res: any, next: any) => validation.onlyAcceptApplicationJson(req, res, next)
 );
+
+container.bind<Web3ClientInterface>(Web3ClientType).to(Web3Client).inSingletonScope();
+
 
 export { container };
